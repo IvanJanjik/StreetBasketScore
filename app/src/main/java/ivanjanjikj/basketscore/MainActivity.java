@@ -1,5 +1,7 @@
 package ivanjanjikj.basketscore;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -8,17 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ivanjanjikj.basketscore.data.Contract.BasketScoreDbInnerClass;
+import ivanjanjikj.basketscore.data.StreetBasketScoreDbHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     // Team A variables
 
+    private EditText nameAteam;
     public TextView teamAscore;
     public Button teamAplus;
     public Button teamAminus;
@@ -30,11 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Team B variables
 
+    private EditText nameBteam;
     public TextView teamBscore;
     public Button teamBplus;
     public Button teamBminus;
     public int scoreB;
 
+    // Save button
+
+    public Button saveButton;
     // Stopwatch variables
 
     private long seconds = 0L, timeInMilliseconds = 0L, timeSwapBuff = 0L, updateTime = 0L;
@@ -743,6 +754,7 @@ public class MainActivity extends AppCompatActivity {
         // geting references of view method
         // Team A
         teamAscore = (TextView) findViewById(R.id.teamAscore);
+        nameAteam = (EditText) findViewById(R.id.teamAname);
         teamAplus = (Button) findViewById(R.id.teamAplus);
         teamAplus.setOnClickListener(clickListener);
 
@@ -769,8 +781,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Save button
+        saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(clickListener);
+        saveButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        insertResult();
+                        finish();
+                    }
+                });
+
         // Team B
         teamBscore = (TextView) findViewById(R.id.teamBscore);
+        nameBteam = (EditText) findViewById(R.id.teamBname);
         teamBplus = (Button) findViewById(R.id.teamBplus);
         teamBplus.setOnClickListener(clickListener);
         teamBminus = (Button) findViewById(R.id.teamBminus);
@@ -807,6 +832,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // database insert game result
+    private void insertResult(){
+        // names
+        String teamNameA = nameAteam.getText().toString().trim();
+        String teamNameB = nameBteam.getText().toString().trim();
+
+        // scores
+        String teamScoreA = teamAscore.getText().toString();
+        int scoreA = Integer.parseInt(teamScoreA);
+        String teamScoreB = teamBscore.getText().toString();
+        int scoreB = Integer.parseInt(teamScoreB);
+
+        // time
+//        String timeString = txtTimer.getText().toString();
+//        int time = Integer.parseInt(timeString);
+
+        // date NEED TO BE ADD LATER
+
+
+        StreetBasketScoreDbHelper mDbHelper = new StreetBasketScoreDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_A_NAMES, teamNameA);
+        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_A_SCORE, scoreA);
+        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_B_NAME, teamNameB);
+        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_B_SCORE, scoreB);
+//        values.put(BasketScoreDbInnerClass.COLUMN_PLAYED_TIME, time);
+
+        long newRowID = db.insert(BasketScoreDbInnerClass.TABLE_NAME,null,values);
+
+        if(newRowID == -1){
+            Toast.makeText(this,"Error saving result", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,"Game saved"+ newRowID, Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 
     // initial score method for team A

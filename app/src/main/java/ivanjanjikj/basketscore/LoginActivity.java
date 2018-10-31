@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button startBtn;
+    Button startBtn, resultBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,5 +25,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent,0);
             }
         });
+
+        resultBtn = (Button) findViewById(R.id.results_button);
+        resultBtn.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ResultsActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 }
+
