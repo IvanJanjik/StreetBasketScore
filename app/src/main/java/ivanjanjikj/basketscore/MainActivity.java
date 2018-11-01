@@ -856,7 +856,7 @@ public class MainActivity extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
 
-        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_A_NAMES, teamNameA);
+        values.put(BasketScoreDbInnerClass.COLUMN_TEAM_A_NAME, teamNameA);
         values.put(BasketScoreDbInnerClass.COLUMN_TEAM_A_SCORE, scoreA);
         values.put(BasketScoreDbInnerClass.COLUMN_TEAM_B_NAME, teamNameB);
         values.put(BasketScoreDbInnerClass.COLUMN_TEAM_B_SCORE, scoreB);

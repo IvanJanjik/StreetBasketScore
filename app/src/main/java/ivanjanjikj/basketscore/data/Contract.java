@@ -31,7 +31,7 @@ public final class  Contract implements BaseColumns {
 
         // teams name
         // type TEXT
-        public final static String COLUMN_TEAM_A_NAMES = "teamA";
+        public final static String COLUMN_TEAM_A_NAME = "teamA";
         public final static String COLUMN_TEAM_B_NAME = "teamB";
 
 

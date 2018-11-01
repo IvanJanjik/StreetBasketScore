@@ -20,7 +20,7 @@ public class StreetBasketScoreDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_ENTRIES = "CREATE TABLE " + BasketScoreDbInnerClass.TABLE_NAME + " ("
                 + BasketScoreDbInnerClass._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + BasketScoreDbInnerClass.COLUMN_TEAM_A_NAMES + " TEXT, "
+                + BasketScoreDbInnerClass.COLUMN_TEAM_A_NAME + " TEXT, "
                 + BasketScoreDbInnerClass.COLUMN_TEAM_B_NAME + " TEXT, "
                 + BasketScoreDbInnerClass.COLUMN_TEAM_A_SCORE + " INTEGER, "
                 + BasketScoreDbInnerClass.COLUMN_TEAM_B_SCORE + " INTEGER, "
